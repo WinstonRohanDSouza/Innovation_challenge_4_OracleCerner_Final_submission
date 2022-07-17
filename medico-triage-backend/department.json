@@ -1,15 +1,252 @@
 {
-    "pulmonary tuberculosis" : {
-        "investigation" : [
-            "Chest X-ray",
-            "Gene-Xpert (CBNAAT)",
-            "CT Scan"
-        ],
-        "treatment" : [
-            "Isoniazid"
-        ],
-        "department" : [
-            "General Medicine"
-        ]
+    "pulmonary tuberculosis": {
+      "investigation": [
+        "Chest X-ray",
+        "Gene-Xpert (CBNAAT)",
+        "CT Scan"
+      ],
+      "treatment": [
+        "Isoniazid",
+        "Rifampicin",
+        "Pyrazinamide",
+        "Ethambutol"
+      ],
+      "department": [
+        "General Medicine"
+      ]
+    },
+    "asthma": {
+      "investigation": [
+        "Spirometry",
+        "Nitric oxide test",
+        "X-Ray",
+        "CT scan of sinuses"
+      ],
+      "treatment": [
+        "Fluticasone",
+        "Budesonide",
+        "Beclomethasone",
+        "Ciclesonide",
+        "Mometasone"
+      ],
+      "department": [
+        "General Medicine"
+      ]
+    },
+    "cerebrovascular accident (stroke)": {
+      "investigation": [
+        "CT Head",
+        "MRI Head",
+        "Blood tests",
+        "ECG",
+        "Echo cardiography",
+        "Cerebral Angiography"
+      ],
+      "treatment": [
+        "Thrombolysis-Activase ,TNKase",
+        "surgery"
+      ],
+      "department": [
+        "General Medicine"
+      ]
+    },
+    "common cold/influenza": {
+      "investigation": [
+        "Viral culture",
+        "RT-PCR",
+        "Rapid molecular assays",
+        "immunofluorescence assays"
+      ],
+      "treatment": [
+        "Acitaminophen",
+        "Ibuprofen",
+        "Phenylpropanolamine",
+        "Brompheneramine",
+        "Chlorphenaramine"
+      ],
+      "department": [
+        "General Medicine"
+      ]
+    },
+    "diarrhea": {
+      "investigation": [
+        "Stool test",
+        "Fecal occult test"
+      ],
+      "treatment": [
+        "Loperamide",
+        "Bismuth subsalicylate",
+        "electrolytes"
+      ],
+      "department": [
+        "General Medicine"
+      ]
+    },
+    "dengue": {
+      "investigation": [
+        "Non structural Protein 1 test",
+        "Ig G,M Test",
+        "RT -PCR Test",
+        "blood tests"
+      ],
+      "treatment": [
+        "Electrolyte replacement",
+        "IV Fluids",
+        "Acetaminophen"
+      ],
+      "department": [
+        "General Medicine"
+      ]
+    },
+    "pneumonia": {
+      "investigation": [
+        "Blood test",
+        "chest X-ray",
+        "Pulse oximetry",
+        "sputum test"
+      ],
+      "treatment": [
+        "Amoxicillin dispersible tablets"
+      ],
+      "department": [
+        "General Medicine"
+      ]
+    },
+    "kidney stones": {
+      "investigation": [
+        "Urinalysis",
+        "Blood tests",
+        "Abdominal X-ray",
+        "CT-Scans"
+      ],
+      "treatment": [
+        "Increase Fluid intake",
+        "IV Fluids",
+        "Ureteroscopic stone removal",
+        "Laser lithotripsy",
+        "Naproxen",
+        "Ibuprofen",
+        "Aspirin"
+      ],
+      "department": [
+        "General Medicine"
+      ]
+    },
+    "cirrhosis of liver": {
+      "investigation": [
+        "CT",
+        "MRI",
+        "Liver enzymes",
+        "Liver Biopsy"
+      ],
+      "treatment": [
+        "Furosemide",
+        "Spironolactone",
+        "Therapeutic endoscopy"
+      ],
+      "department": [
+        "General Medicine"
+      ]
+    },
+    "hemorrhoids": {
+      "investigation": [
+        "Fecal occult test",
+        "Rectal examination",
+        "colonoscopy"
+      ],
+      "treatment": [
+        "High fibfre diet",
+        "stool softners",
+        "surgery"
+      ],
+      "department": [
+        "General Medicine"
+      ]
+    },
+    "psoriasis": {
+      "investigation": [
+        "Skin Biopsy"
+      ],
+      "treatment": [
+        "Topical steroids cream",
+        "Light therapy",
+        "Tretinion",
+        "Retinyl Palmitate",
+        "Isotretnion",
+        "Salicyclic acid"
+      ],
+      "department": [
+        "Dermatology"
+      ]
+    },
+    "chicken pox": {
+      "investigation": [
+        "PCR-VSV",
+        "Virus culture",
+        "Serology IgG,M"
+      ],
+      "treatment": [
+        "Acetaminophen",
+        "Diphenhydramine",
+        "Calamine lotion"
+      ],
+      "department": [
+        "General Medicine"
+      ]
+    },
+    "anxiety/ depressive disorder": {
+      "investigation": [
+        "Depression, Anxiety, and Stress Scale",
+        "Physical examination"
+      ],
+      "treatment": [
+        "rTMS(Repetitive Transcranial Magnetic Stimulation)",
+        "Alprazolam",
+        "Lorazepam"
+      ],
+      "department": [
+        "Psychiatry"
+      ]
+    },
+    "rheumatoid arthritis": {
+      "investigation": [
+        "CRP ",
+        "ESR",
+        "Anti CCP antibodies"
+      ],
+      "treatment": [
+        "Sulfasalazine",
+        "Hydroxychloroquine",
+        "Prednisone"
+      ],
+      "department": [
+        "Orthopedics"
+      ]
+    },
+    "cataract": {
+      "investigation": [
+        "Visual acuity test",
+        "Retinal exam",
+        "Applanation tonometry"
+      ],
+      "treatment": [
+        "Phacoemulsification"
+      ],
+      "department": [
+        "Opthalmology"
+      ]
+    },
+    "uterine fibroid ": {
+      "investigation": [
+        "USG",
+        "Lab tests-CBC"
+      ],
+      "treatment": [
+        "Myomectomy",
+        "GnRH Agonists"
+      ],
+      "department": [
+        "OBG"
+      ]
     }
-}
+  }
