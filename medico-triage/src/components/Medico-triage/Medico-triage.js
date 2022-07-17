@@ -129,15 +129,19 @@ export default function MedicoTriage() {
         body: JSON.stringify({ diagnosis: [value] }),
       }
     );
+    const resFinalRes = await response.json();
 
-    const resFinalRes = {
-      investigation: ["Chest X-ray", "Gene-Xpert (CBNAAT)", "CT Scan"],
-      treatment: ["Isoniazid"],
-      department: ["General Medicine"],
-    }; //await response.json();
+    // const resFinalRes = {
+    //   investigation: ["Chest X-ray", "Gene-Xpert (CBNAAT)", "CT Scan"],
+    //   treatment: ["Isoniazid"],
+    //   department: ["General Medicine"],
+    // }; //await response.json();
     setshowResults(true);
-
-    setResult(resFinalRes);
+    if (resFinalRes.recommendation === "no recommendation") {
+      setResult([]);
+    } else {
+      setResult(resFinalRes.recommendation);
+    }
   };
 
   return (
@@ -242,13 +246,19 @@ export default function MedicoTriage() {
           {showResults ? (
             <>
               <Grid item xs={12} sm={4}>
-                <Speciality values={result.department} />
+                <Speciality
+                  values={"department" in result ? result.department : []}
+                />
               </Grid>
               <Grid item xs={12} sm={4}>
-                <Investigation values={result.investigation} />
+                <Investigation
+                  values={"investigation" in result ? result.investigation : []}
+                />
               </Grid>
               <Grid item xs={12} sm={4}>
-                <Treatment values={result.treatment} />
+                <Treatment
+                  values={"treatment" in result ? result.treatment : []}
+                />
               </Grid>
             </>
           ) : (

@@ -44,37 +44,53 @@ export default function Speciality(props) {
           elevation={0}
         >
           <List className={classes.root}>
-            {data.map((parameter) => (
-              <div>
-                <ListItem
-                  alignItems="flex-start"
-                  onClick={() => alert("Book an Appointmnet")}
-                >
-                  <ListItemAvatar>
-                    {
-                      <FontAwesomeIcon
-                        icon={Icons.faHospitalAlt}
-                        size="1x"
-                        color="black"
-                      />
-                    }
-                  </ListItemAvatar>
-                  <ListItemText primary={parameter} />
-                  <ListItemSecondaryAction>
-                    <Button
-                      variant="outlined"
-                      size="small"
-                      color="primary"
-                      className={classes.button}
-                      onClick={() => alert("Book an Appointmnet")}
-                    >
-                      Book Appointmnet
-                    </Button>
-                  </ListItemSecondaryAction>
-                </ListItem>
-                <Divider variant="inset" component="li" />
-              </div>
-            ))}
+            {data.length > 0 ? (
+              data.map((parameter) => (
+                <div>
+                  <ListItem
+                    alignItems="flex-start"
+                    button
+                    onClick={() => alert("Book an Appointmnet")}
+                  >
+                    <ListItemAvatar>
+                      {
+                        <FontAwesomeIcon
+                          icon={Icons.faHospitalAlt}
+                          size="1x"
+                          color="black"
+                        />
+                      }
+                    </ListItemAvatar>
+                    <ListItemText primary={parameter} />
+                    <ListItemSecondaryAction>
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        color="primary"
+                        className={classes.button}
+                        onClick={() => alert("Book an Appointmnet")}
+                      >
+                        Book Appointmnet
+                      </Button>
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                  <Divider variant="inset" component="li" />
+                </div>
+              ))
+            ) : (
+              <ListItem alignItems="flex-start">
+                <ListItemAvatar>
+                  {
+                    <FontAwesomeIcon
+                      icon={Icons.faHospitalAlt}
+                      size="1x"
+                      color="black"
+                    />
+                  }
+                </ListItemAvatar>
+                <ListItemText primary="No Speciality Found" />
+              </ListItem>
+            )}
           </List>
         </Paper>
       </CardContent>

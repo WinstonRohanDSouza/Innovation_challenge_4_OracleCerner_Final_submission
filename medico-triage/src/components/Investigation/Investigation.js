@@ -49,35 +49,50 @@ export default function Investigation(props) {
           elevation={0}
         >
           <List className={classes.root}>
-            {data.map((parameter) => (
-              <div>
-                <ListItem alignItems="flex-start" button>
-                  <ListItemIcon>
+            {data.length > 0 ? (
+              data.map((parameter) => (
+                <div>
+                  <ListItem alignItems="flex-start" button>
+                    <ListItemIcon>
+                      <FontAwesomeIcon
+                        icon={Icons.faVial}
+                        size="1x"
+                        color="black"
+                      />
+                    </ListItemIcon>
+                    <ListItemText
+                      onClick={() => alert("Order lab test")}
+                      id="switch-list-label-bluetooth"
+                      primary={parameter}
+                    />
+                    <ListItemSecondaryAction>
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        color="primary"
+                        className={classes.button}
+                      >
+                        Add Lab test
+                      </Button>
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                  <Divider variant="inset" component="li" />
+                </div>
+              ))
+            ) : (
+              <ListItem alignItems="flex-start">
+                <ListItemAvatar>
+                  {
                     <FontAwesomeIcon
                       icon={Icons.faVial}
                       size="1x"
                       color="black"
                     />
-                  </ListItemIcon>
-                  <ListItemText
-                    onClick={() => alert("Order lab test")}
-                    id="switch-list-label-bluetooth"
-                    primary={parameter}
-                  />
-                  <ListItemSecondaryAction>
-                    <Button
-                      variant="outlined"
-                      size="small"
-                      color="primary"
-                      className={classes.button}
-                    >
-                      Add Lab test
-                    </Button>
-                  </ListItemSecondaryAction>
-                </ListItem>
-                <Divider variant="inset" component="li" />
-              </div>
-            ))}
+                  }
+                </ListItemAvatar>
+                <ListItemText primary="No Investigations Found" />
+              </ListItem>
+            )}
           </List>
         </Paper>
       </CardContent>

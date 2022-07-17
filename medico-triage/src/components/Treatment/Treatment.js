@@ -9,6 +9,7 @@ import {
   Card,
   CardContent,
   CardHeader,
+  ListItemAvatar,
   ListItemIcon,
   ListItemSecondaryAction,
   Paper,
@@ -46,34 +47,49 @@ export default function Treatment(props) {
           elevation={0}
         >
           <List className={classes.root}>
-            {data.map((parameter) => (
-              <div>
-                <ListItem alignItems="flex-start" button>
-                  <ListItemIcon>
+            {data.length > 0 ? (
+              data.map((parameter) => (
+                <div>
+                  <ListItem alignItems="flex-start" button>
+                    <ListItemIcon>
+                      <FontAwesomeIcon
+                        icon={Icons.faTablets}
+                        size="1x"
+                        color="black"
+                      />
+                    </ListItemIcon>
+                    <ListItemText
+                      onClick={() => alert("Place order")}
+                      primary={parameter}
+                    />
+                    <ListItemSecondaryAction>
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        color="primary"
+                        className={classes.button}
+                      >
+                        Order Medicine
+                      </Button>
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                  <Divider variant="inset" component="li" />
+                </div>
+              ))
+            ) : (
+              <ListItem alignItems="flex-start">
+                <ListItemAvatar>
+                  {
                     <FontAwesomeIcon
                       icon={Icons.faTablets}
                       size="1x"
                       color="black"
                     />
-                  </ListItemIcon>
-                  <ListItemText
-                    onClick={() => alert("Place order")}
-                    primary={parameter}
-                  />
-                  <ListItemSecondaryAction>
-                    <Button
-                      variant="outlined"
-                      size="small"
-                      color="primary"
-                      className={classes.button}
-                    >
-                      Order Medicine
-                    </Button>
-                  </ListItemSecondaryAction>
-                </ListItem>
-                <Divider variant="inset" component="li" />
-              </div>
-            ))}
+                  }
+                </ListItemAvatar>
+                <ListItemText primary="No Teatement Found" />
+              </ListItem>
+            )}
           </List>
         </Paper>
       </CardContent>
