@@ -1,0 +1,15 @@
+{
+    "pulmonary tuberculosis" : {
+        "investigation" : [
+            "Chest X-ray",
+            "Gene-Xpert (CBNAAT)",
+            "CT Scan"
+        ],
+        "treatment" : [
+            "Isoniazid"
+        ],
+        "department" : [
+            "General Medicine"
+        ]
+    }
+}
