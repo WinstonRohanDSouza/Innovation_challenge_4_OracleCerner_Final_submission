@@ -39,6 +39,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MedicoTriage() {
   const classes = useStyles();
+  const [role, setRole] = React.useState(
+    window.location.href.substring(window.location.href.lastIndexOf("/") + 1)
+  );
   const [open, setOpen] = React.useState(false);
   const [options, setOptions] = React.useState([]);
   const [allOptions, setallOptions] = React.useState([]);
@@ -230,7 +233,7 @@ export default function MedicoTriage() {
         className={classes.root}
         style={{ marginTop: "10%", marginRight: "5%", marginLeft: "5%" }}
       >
-        <Grid container spacing={3}>
+        <Grid container spacing={3} justify="center">
           {showDiagnosis ? (
             <Grid item xs={12}>
               <Paper
@@ -245,21 +248,34 @@ export default function MedicoTriage() {
           )}
           {showResults ? (
             <>
-              <Grid item xs={12} sm={4}>
-                <Speciality
-                  values={"department" in result ? result.department : []}
-                />
-              </Grid>
-              <Grid item xs={12} sm={4}>
-                <Investigation
-                  values={"investigation" in result ? result.investigation : []}
-                />
-              </Grid>
-              <Grid item xs={12} sm={4}>
-                <Treatment
-                  values={"treatment" in result ? result.treatment : []}
-                />
-              </Grid>
+              {role === "patient" || role === "nurse" ? (
+                <Grid item xs={12} sm={4}>
+                  <Speciality
+                    values={"department" in result ? result.department : []}
+                  />
+                </Grid>
+              ) : (
+                ""
+              )}
+              {role === "doctor" || role === "nurse" ? (
+                <>
+                  <Grid item xs={12} sm={4}>
+                    <Investigation
+                      values={
+                        "investigation" in result ? result.investigation : []
+                      }
+                    />
+                  </Grid>
+
+                  <Grid item xs={12} sm={4}>
+                    <Treatment
+                      values={"treatment" in result ? result.treatment : []}
+                    />
+                  </Grid>
+                </>
+              ) : (
+                ""
+              )}
             </>
           ) : (
             ""

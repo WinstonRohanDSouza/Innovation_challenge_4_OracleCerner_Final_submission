@@ -21,8 +21,16 @@ import {
 
 import { LocalHospitalRounded } from "@material-ui/icons";
 import { blue } from "@material-ui/core/colors";
+import { useNavigate } from "react-router-dom";
 
 class Registration extends Component {
+  constructor(props) {
+    super(props);
+
+    this.role = window.location.href.substring(
+      window.location.href.lastIndexOf("/") + 1
+    );
+  }
   state = {
     firstName: "",
     lastName: "",
@@ -71,9 +79,7 @@ class Registration extends Component {
     return true;
   };
 
-  submitRegistration = (e) => {
-    // localStorage.setItem("PatientInfo", this.state);
-  };
+  submitRegistration = (e) => {};
 
   render() {
     const { classes } = this.props;
@@ -206,11 +212,11 @@ class Registration extends Component {
                 <Button
                   disabled={!this.isValid()}
                   disableRipple
-                  variant="contained"
+                  variant="contained + "
                   className={classes.button}
                   onClick={() => this.submitRegistration}
                   type="submit"
-                  href="/triage"
+                  href={`/triage/${this.role}`}
                 >
                   Next
                 </Button>

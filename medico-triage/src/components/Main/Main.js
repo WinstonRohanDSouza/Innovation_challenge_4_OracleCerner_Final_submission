@@ -12,6 +12,7 @@ import Header from "../Header/Header";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import MedicoTriage from "../Medico-triage/Medico-triage";
 import bg from "../../assets/img/main-modified.webp";
+import RolePage from "../RolePage/RolePage";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -79,8 +80,13 @@ export default function Main(props) {
         <Toolbar id="back-to-top-anchor" />
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<MainContent />} />
-            <Route path="/triage" element={<MedicoTriage />} />
+            <Route path="/patient/:role" element={<MainContent />} />
+            <Route path="/" element={<RolePage />} />
+            <Route
+              path="/triage/:role"
+              exact={true}
+              element={<MedicoTriage />}
+            />
           </Routes>
         </BrowserRouter>
         <ScrollTop {...props}>
