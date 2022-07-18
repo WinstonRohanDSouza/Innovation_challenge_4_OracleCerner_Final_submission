@@ -6,15 +6,18 @@ import {
   Button,
   CircularProgress,
   Grid,
+  InputLabel,
   makeStyles,
   Paper,
+  Select,
+  Switch,
+  Typography,
 } from "@material-ui/core";
 import { SearchOutlined } from "@material-ui/icons";
 import Diagnosis from "../Diagnosis/diagnosis";
 import Speciality from "../Speciality/Speciality";
 import Investigation from "../Investigation/Investigation";
 import Treatment from "../Treatment/Treatment";
-import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,6 +46,7 @@ export default function MedicoTriage() {
     window.location.href.substring(window.location.href.lastIndexOf("/") + 1)
   );
   const [open, setOpen] = React.useState(false);
+  const [language, setLanguage] = React.useState("en");
   const [options, setOptions] = React.useState([]);
   const [allOptions, setallOptions] = React.useState([]);
   const [showDiagnosis, setshowDiagnosis] = React.useState(false);
@@ -50,6 +54,7 @@ export default function MedicoTriage() {
   const [showResults, setshowResults] = React.useState(false);
   const [result, setResult] = React.useState({});
   const [selected, setSelected] = React.useState([]);
+  const [hindi, setHindi] = React.useState([]);
   const loading = open && options.length === 0;
 
   React.useEffect(() => {
@@ -90,7 +95,40 @@ export default function MedicoTriage() {
     }
   };
 
+  const handleSearchChange = (val) => {
+    setHindi(val);
+  };
+
+  const translate = async (val, from, to) => {
+    const res = await fetch("http://localhost:8080/translate", {
+      method: "POST",
+      body: JSON.stringify({
+        text: val,
+        from: from,
+        to: to,
+      }),
+      headers: { "Content-Type": "application/json" },
+    });
+    let response = await res.text();
+    return response;
+  };
+
   const getDiagnosis = async () => {
+    setshowDiagnosis(false);
+    setshowResults(false);
+    if (language === "hi") {
+      let translateresponse = await translate(hindi, "hi", "en");
+
+      if (translateresponse) {
+        let value = translateresponse.split(",");
+        let final = [];
+        value.forEach((currentItem) => {
+          final.push({ title: currentItem, value: currentItem });
+        });
+        setSelected(final);
+      }
+    }
+
     if (selected.length === 0) {
       setshowDiagnosis(false);
       setshowResults(false);
@@ -113,15 +151,45 @@ export default function MedicoTriage() {
 
         const resDiagnosis = await response.json();
 
-        setshowDiagnosis(true);
-        setDiagnosis(resDiagnosis.predicted_diagnosis);
+        if (language === "hi") {
+          let arrayofdiag = [];
+          JSON.parse(resDiagnosis.predicted_diagnosis).forEach((element) => {
+            arrayofdiag.push(element.Diagnosis);
+          });
+
+          let translateresponse = await translate(arrayofdiag, "en", "hi");
+          translateresponse = translateresponse.split(",");
+          resDiagnosis.predicted_diagnosis = JSON.parse(
+            resDiagnosis.predicted_diagnosis
+          );
+          for (let index = 0; index < translateresponse.length; index++) {
+            resDiagnosis.predicted_diagnosis[index]["Diagnosis"] =
+              translateresponse[index];
+          }
+          setshowDiagnosis(true);
+          setDiagnosis(resDiagnosis.predicted_diagnosis);
+        } else {
+          setshowDiagnosis(true);
+          setDiagnosis(JSON.parse(resDiagnosis.predicted_diagnosis));
+        }
       }
     }
   };
 
-  const getResult = async (value) => {
-    console.log(value);
+  const handleLanguageChange = (e) => {
+    setLanguage(e.target.value);
+    setshowDiagnosis(false);
+    setshowResults(false);
+  };
 
+  const getResult = async (value) => {
+    setshowResults(false);
+    setResult([]);
+    let val;
+    if (language === "hi") {
+      val = await translate(value, "hi", "en");
+      value = val;
+    }
     const response = await fetch(
       "https://diagnosis-prediction-model.herokuapp.com/recommendationBasisDiagnosis",
       {
@@ -134,16 +202,34 @@ export default function MedicoTriage() {
     );
     const resFinalRes = await response.json();
 
-    // const resFinalRes = {
-    //   investigation: ["Chest X-ray", "Gene-Xpert (CBNAAT)", "CT Scan"],
-    //   treatment: ["Isoniazid"],
-    //   department: ["General Medicine"],
-    // }; //await response.json();
     setshowResults(true);
     if (resFinalRes.recommendation === "no recommendation") {
       setResult([]);
     } else {
-      setResult(resFinalRes.recommendation);
+      if (language === "hi") {
+        let departs = await translate(
+          resFinalRes.recommendation.department.toString(),
+          "en",
+          "hi"
+        );
+        resFinalRes.recommendation.department = departs.split(",");
+
+        let investigation = await translate(
+          resFinalRes.recommendation.investigation.toString(),
+          "en",
+          "hi"
+        );
+        resFinalRes.recommendation.investigation = investigation.split(",");
+        let treatment = await translate(
+          resFinalRes.recommendation.treatment.toString(),
+          "en",
+          "hi"
+        );
+        resFinalRes.recommendation.treatment = treatment.split(",");
+        setResult(resFinalRes.recommendation);
+      } else {
+        setResult(resFinalRes.recommendation);
+      }
     }
   };
 
@@ -152,61 +238,107 @@ export default function MedicoTriage() {
       <div className="head">
         <div className={classes.root}>
           <Paper className={classes.paper} style={{ background: "#3f50b5" }}>
+            <Typography component="div">
+              <Grid
+                component="label"
+                container
+                alignItems="center"
+                spacing={1}
+                justifyContent="left"
+                style={{ justifyContent: "flex-end" }}
+              >
+                <Grid item>
+                  <Select
+                    native
+                    value={language}
+                    onChange={handleLanguageChange}
+                    inputProps={{
+                      name: "age",
+                      id: "age-native-simple",
+                    }}
+                  >
+                    <option value={"en"}>
+                      <Typography style={{ color: "#ffffff" }}>
+                        English
+                      </Typography>
+                    </option>
+                    <option value={"hi"}>
+                      <Typography style={{ color: "#ffffff" }}>
+                        Hindi
+                      </Typography>
+                    </option>
+                  </Select>
+                </Grid>
+              </Grid>
+            </Typography>
             <Grid container spacing={1}>
               <Grid item xs={12} sm container>
                 <Grid item xs container>
                   <Grid item xs={10}>
-                    <Autocomplete
-                      id="asynchronous"
-                      noOptionsText={"No matches found"}
-                      multiple
-                      limitTags={3}
-                      open={open}
-                      onChange={(event, selectedValue) => {
-                        setSelected(selectedValue);
-                        setshowDiagnosis(false);
-                        setshowResults(false);
-                      }}
-                      onOpen={() => {
-                        setOpen(true);
-                      }}
-                      onClose={() => {
-                        setOpen(false);
-                      }}
-                      getOptionSelected={(option, value) =>
-                        option.name === value.title
-                      }
-                      getOptionLabel={(option) => option.title}
-                      options={allOptions}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          placeholder="Enter Symptoms Here...."
-                          variant="outlined"
-                          style={{ background: "#ffffff" }}
-                          onChange={(ev) => {
-                            // dont fire API if the user delete or not entered anything
-                            if (
-                              ev.target.value !== "" ||
-                              ev.target.value !== null
-                            ) {
-                              onChangeHandle(ev.target.value);
-                            }
-                          }}
-                          InputProps={{
-                            ...params.InputProps,
-                            endAdornment: (
-                              <React.Fragment>
-                                {loading ? (
-                                  <CircularProgress color="inherit" size={20} />
-                                ) : null}
-                                {params.InputProps.endAdornment}
-                              </React.Fragment>
-                            ),
-                          }}
-                        />
-                      )}
-                    />
+                    {language === "en" ? (
+                      <Autocomplete
+                        id="asynchronous"
+                        noOptionsText={"No matches found"}
+                        multiple
+                        limitTags={3}
+                        open={open}
+                        onChange={(event, selectedValue) => {
+                          setSelected(selectedValue);
+                          setshowDiagnosis(false);
+                          setshowResults(false);
+                        }}
+                        onOpen={() => {
+                          setOpen(true);
+                        }}
+                        onClose={() => {
+                          setOpen(false);
+                        }}
+                        getOptionSelected={(option, value) =>
+                          option.name === value.title
+                        }
+                        getOptionLabel={(option) => option.title}
+                        options={allOptions}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            placeholder="Enter Symptoms Here...."
+                            variant="outlined"
+                            style={{ background: "#ffffff" }}
+                            onChange={(ev) => {
+                              // dont fire API if the user delete or not entered anything
+                              if (
+                                ev.target.value !== "" ||
+                                ev.target.value !== null
+                              ) {
+                                onChangeHandle(ev.target.value);
+                              }
+                            }}
+                            InputProps={{
+                              ...params.InputProps,
+                              endAdornment: (
+                                <React.Fragment>
+                                  {loading ? (
+                                    <CircularProgress
+                                      color="inherit"
+                                      size={20}
+                                    />
+                                  ) : null}
+                                  {params.InputProps.endAdornment}
+                                </React.Fragment>
+                              ),
+                            }}
+                          />
+                        )}
+                      />
+                    ) : (
+                      <TextField
+                        id="search"
+                        placeholder="search with hindi language"
+                        variant="outlined"
+                        style={{ background: "#ffffff", width: "550px" }}
+                        onChange={(e) => handleSearchChange(e.target.value)}
+                      />
+                    )}
                   </Grid>
                   <Grid
                     item

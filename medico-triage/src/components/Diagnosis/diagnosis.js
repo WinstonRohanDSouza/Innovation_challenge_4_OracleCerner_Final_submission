@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Diagnosis(props) {
-  const data = JSON.parse(props.values);
+  const data = props.values;
   console.log(props);
   const classes = useStyles();
   const passData = (diagnosis) => {
